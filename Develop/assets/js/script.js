@@ -21,14 +21,13 @@ const times = [
 
 // function to handle saving items
 const submitHandler = (event) => {
-    event.preventDefault();
     // getting an ID for each row
-    let id = event.target.id;
-    id = id.substring(id.length - 2, id.length - 1);
+    let id = event.target.id.substring(4, 5);
 
     // adding the text to local storage using the row ID
     let storedItem = $(`#description-${id}`).val();
-    if (!storedItem) {
+    console.log(storedItem);
+    if (storedItem.length == 0) {
         $('#localStorage').text("Nothing to save!");
     }
     localStorage.setItem(`${id}-text`, JSON.stringify(storedItem));
@@ -37,7 +36,7 @@ const submitHandler = (event) => {
 
 const init = () => {
     for (i = 0; i < times.length; i++) {
-        $(`#description-${i}`).text(JSON.parse(localStorage.getItem(`${i}-text`)));
+        $(`#description-${i}`).val(JSON.parse(localStorage.getItem(`${i}-text`)));
     }
 }
 
@@ -71,9 +70,15 @@ for (let i = 0; i < times.length; i++) {
     // appending the save button column
     $(`#${times[i]}`).append(`<button class="btn col saveBtn" id="btn-${i}">`);
     // adding the save icon
-    $(`#btn-${i}`).append(`<i class="bi bi-save">`);
+    $(`#btn-${i}`).append(`<i class="bi bi-save" id="btn-${i}">`);
     // adding event handler to save to local storage on clicking save
     $(`#btn-${i}`).on('click', submitHandler);
 }
+
+// setInterval(() => {
+//     console.log("yep");
+//     console.log(localStorage.getItem("0-text"));
+//     console.log($('#description-0').val());
+// }, 1000);
 
 init();
