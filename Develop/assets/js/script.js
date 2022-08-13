@@ -26,14 +26,16 @@ const submitHandler = (event) => {
 
     // adding the text to local storage using the row ID
     let storedItem = $(`#description-${id}`).val();
-    console.log(storedItem);
+    // check if there's anything to save
     if (storedItem.length == 0) {
         $('#localStorage').text("Nothing to save!");
+    } else {
+        localStorage.setItem(`${id}-text`, JSON.stringify(storedItem));
+        $('#localStorage').text("Successfully saved item!");
     }
-    localStorage.setItem(`${id}-text`, JSON.stringify(storedItem));
-    $('#localStorage').text("Successfully saved item!");
 }
 
+// startup function to get items from local storage and set them on the page
 const init = () => {
     for (i = 0; i < times.length; i++) {
         $(`#description-${i}`).val(JSON.parse(localStorage.getItem(`${i}-text`)));
@@ -74,11 +76,5 @@ for (let i = 0; i < times.length; i++) {
     // adding event handler to save to local storage on clicking save
     $(`#btn-${i}`).on('click', submitHandler);
 }
-
-// setInterval(() => {
-//     console.log("yep");
-//     console.log(localStorage.getItem("0-text"));
-//     console.log($('#description-0').val());
-// }, 1000);
 
 init();
